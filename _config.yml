@@ -1,0 +1,24 @@
+title: The Obelisk Programming Language
+description: An experimental programming language
+compress_html:
+  clippings: all
+  comments: ["<!--", "-->"]
+  endings: all
+  ignore:
+    envs: []
+exclude:
+  - anchorjs
+permalink: /:title/
+plugins:
+  - github-pages
+  - jekyll-feed
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-sitemap
+readme_index:
+  enabled: false
+relative_links:
+  collections: true
+repository: milkey-mouse/obelisk
+sass:
+  style: compressed

@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+@font-face {
+  font-family: 'Fira Mono';
+  src: url('/assets/fonts/fira-mono/light.eot');
+  src: url('/assets/fonts/fira-mono/light.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/fira-mono/light.woff2') format('woff2'),
+       url('/assets/fonts/fira-mono/light.woff') format('woff'),
+       url('/assets/fonts/fira-mono/light.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Fira Mono';
+  src: url('/assets/fonts/fira-mono/regular.eot');
+  src: url('/assets/fonts/fira-mono/regular.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/fira-mono/regular.woff2') format('woff2'),
+       url('/assets/fonts/fira-mono/regular.woff') format('woff'),
+       url('/assets/fonts/fira-mono/regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Fira Mono';
+  src: url('/assets/fonts/fira-mono/medium.eot');
+  src: url('/assets/fonts/fira-mono/medium.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/fira-mono/medium.woff2') format('woff2'),
+       url('/assets/fonts/fira-mono/medium.woff') format('woff'),
+       url('/assets/fonts/fira-mono/medium.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+}
