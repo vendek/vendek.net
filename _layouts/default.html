@@ -1,0 +1,102 @@
+---
+layout: compress
+---
+
+{%- comment -%}
+the mess below parses the content of a post to see if it uses certain types of
+elements and includes only the necessary CSS to style those elements
+{%- endcomment -%}
+
+{%- assign anchor_js = false -%}
+{%- assign critical_css = true -%}
+{%- assign highlight_css = false -%}
+
+{% capture post_content_start %}  <div class="post-content e-content" itemprop="articleBody">{% endcapture %}
+{% capture post_content_end %}  </div>{% endcapture %}
+{%- assign in_post_content = false -%}
+
+{%- assign content_lines = content | newline_to_br | strip_newlines | split: "<br />" -%}
+{%- for line in content_lines -%}
+  {%- if in_post_content -%}
+    {%- if line == post_content_end -%}
+      {%- break -%}
+    {%- endif -%}
+    {%- assign line = line | replace: "<p>", "" | replace: "</p>", "" -%}
+    {%- if line contains "<" and line contains ">" -%}
+      {%- assign critical_css = false -%}
+      {%- if line contains "</h2>"
+          or line contains "</h3>"
+          or line contains "</h4>"
+          or line contains "</h5>"
+          or line contains "</h6>" -%}
+        {%- assign anchor_js = true -%}
+      {%- endif -%}
+      {%- if line contains "</code>" -%}
+        {%- assign highlight_css = true -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- elsif line == post_content_start -%}
+    {%- assign in_post_content = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<!doctype html>
+<html lang="en">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {%- seo -%}
+    {%- feed_meta -%}
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" sizes="192x192" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="stylesheet" href="/assets/critical.css">
+    {%- if critical_css -%}
+    <link rel="prefetch" href="/assets/common.css" as="style">
+    <link rel="prefetch" href="/assets/highlight.css" as="style">
+    <link rel="prefetch" href="/assets/anchor.min.js" as="script">
+    {%- else -%}
+    <link rel="stylesheet" href="/assets/common.css">
+    {%- if highlight_css -%}
+    <link rel="stylesheet" href="/assets/highlight.css">
+    {%- endif -%}
+    {%- endif -%}
+    {%- for css in page.extra_css -%}
+    <link rel="stylesheet" href="/assets/{{ css }}.css">
+    {%- endfor -%}
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/">
+        <img src="/assets/logotype.svg" onerror="this.src='/assets/logotype.png'">
+      </a>
+    </header>
+    <main class="page-content" aria-label="Content">
+      {{ content }}
+    </main>
+    <footer class="site-footer h-card">
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+          <p class="feed-subscribe">
+            <a href="/feed.xml">
+              {%- include feed.svg -%}
+              <span>Subscribe</span>
+            </a>
+          </p>
+        </div>
+        <div class="footer-col">
+          <p>{{ site.description | escape }}</p>
+        </div>
+      </div>
+    </footer>
+    {%- if anchor_js -%}
+      <script src="/assets/anchor.min.js"></script>
+      <script>
+        anchors.options.placement = "left";
+        anchors.add(".post-content > h1, .post-content > h2, .post-content > h3, .post-content > h4, .post-content > h5, .post-content > h6");
+      </script>
+    {%- endif -%}
+  </body>
+</html>

@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <h1 class="p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <h4>
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.date | date: "%b %-d, %Y" }}
+      </time>
+      {%- if page.last_modified_at -%}
+        ~
+        {%- assign mdate = page.last_modified_at | date_to_xmlschema -%}
+        <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
+          {{ mdate | date: "%b %-d, %Y" }}
+        </time>
+      {%- endif -%}
+      {%- if page.author -%}
+        • {% for author in page.author %}
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
+            {%- if forloop.last == false %}, {% endif -%}
+        {% endfor %}
+      {%- endif -%}
+    </h4>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>

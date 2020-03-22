@@ -1,0 +1,3 @@
+[submodule "anchorjs"]
+	path = anchorjs
+	url = https://github.com/bryanbraun/anchorjs

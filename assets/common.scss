@@ -1,0 +1,91 @@
+---
+---
+
+@charset "utf-8";
+
+@import "variables";
+
+hr {
+  margin-top: $spacing-unit;
+  margin-bottom: $spacing-unit;
+}
+
+body {
+  // is clearfix needed on body?
+  @extend %clearfix;
+}
+
+%clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+hr {
+  margin-top: $spacing-unit;
+  margin-bottom: $spacing-unit;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+ul, ol {
+  margin-left: $spacing-unit;
+}
+
+li {
+  > ul,
+  > ol {
+    margin-bottom: 0;
+  }
+}
+
+blockquote {
+  color: $quote-color;
+  border-left: 4px solid $border-color;
+  padding-left: $spacing-unit / 2;
+  font-size: 1.125rem;
+  font-style: italic;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  i, em {
+    font-style: normal;
+  }
+}
+
+table {
+  margin-bottom: $spacing-unit;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid $border-color;
+  tr {
+    &:nth-child(even) {
+      background-color: $table-zebra-color;
+    }
+  }
+  th, td {
+    padding: ($spacing-unit / 3) ($spacing-unit / 2);
+  }
+  th {
+    background-color: $table-header-bg-color;
+    border: 1px solid $table-header-border;
+  }
+  td {
+    border: 1px solid $border-color;
+  }
+
+  @media screen and (max-width: $large-width) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+}

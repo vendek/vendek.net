@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+$content-width: 800px;
+$spacing-unit: 20px;
+
+// media query cutoffs
+$medium-width: 600px;
+$large-width: 800px;
+
+$body-text-color: #333;
+
+$link-base-color: #2a7ae2;
+$link-visited-color: darken($link-base-color, 15%);
+
+$quote-color: $body-text-color;
+$border-color: #e0e0e0;
+
+$table-color: #828282;
+$table-text-color: lighten($body-text-color, 18%) !default;
+$table-zebra-color: lighten($table-color, 46%) !default;
+$table-header-bg-color: lighten($table-color, 43%) !default;
+$table-header-border: lighten($table-color, 36%) !default;

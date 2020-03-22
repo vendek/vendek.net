@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+{{ content }}
+
+<ul class="post-list">
+  {%- for post in site.posts -%}
+  <li>
+    <a href="{{ post.url }}">
+      <h4 class="body-color">{{ post.date | date: "%Y-%m-%d" }}</h4>
+      <h2>{{ post.title | escape }}</h2>
+    </a>
+    </h3>
+  </li>
+  {%- endfor -%}
+</ul>

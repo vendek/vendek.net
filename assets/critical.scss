@@ -1,0 +1,136 @@
+---
+---
+
+@charset "utf-8";
+
+@import "base",
+        "variables",
+        "fonts/fira-sans.scss",
+        "fonts/league-gothic.scss";
+
+// basic fonts and body format
+body {
+  font-family: "Fira Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: $body-text-color;
+
+  max-width: calc(#{$content-width} - (#{$spacing-unit}));
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $spacing-unit / 2;
+  padding-left: $spacing-unit / 2;
+
+  @media screen and (min-width: $large-width) {
+    max-width: calc(#{$content-width} - (#{$spacing-unit} * 2));
+    padding-right: $spacing-unit;
+    padding-left: $spacing-unit;
+  }
+}
+
+main {
+  padding: $spacing-unit 0;
+  flex: 1 0 auto;
+}
+
+.title-font, h1, h2, h3, h4, h5, h6 {
+  font-family: "League Gothic", "Oswald", "Alternate Gothic", "Franklin Gothic Condensed", Impact, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 2.625em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4, h5, h6 {
+  font-size: 1.25em;
+}
+
+// margins
+.site-header {
+  margin-top: $spacing-unit * 2;
+
+  > a > * {
+    max-height: 3rem;
+  }
+}
+
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+ul, ol, dl, figure,
+// TODO: rework footer CSS like please-admit.me, simpler
+.footer-heading, .footer-col {
+  margin-bottom: $spacing-unit / 2;
+}
+
+.site-footer {
+  padding: $spacing-unit 0;
+}
+
+.post-list {
+  padding-top: $spacing-unit;
+  margin-left: 0;
+  list-style: none;
+
+  > li {
+    margin-bottom: $spacing-unit;
+
+    > a > :first-child {
+      color: $body-text-color;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+a {
+  color: $link-base-color;
+  text-decoration: none;
+
+  &:visited {
+    color: $link-visited-color;
+  }
+}
+
+/*@media screen and (min-width: $medium-width) {
+  .footer-col-wrapper {
+    display: flex;
+  }
+
+  .footer-col {
+    width: calc(100% - (#{$spacing-unit} / 2));
+    padding: 0 ($spacing-unit / 2);
+
+    &:first-child {
+      padding-right: $spacing-unit / 2;
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+      padding-left: $spacing-unit / 2;
+    }
+  }
+}*/
+
+.anchorjs-link {
+  margin-top: -0.1em;
+
+  &, &:visited {
+    color: #666;
+  }
+}
+
+// non-critical
+hr {
+  margin: $spacing-unit 0;
+  //margin-top: $spacing-unit;
+  //margin-bottom: $spacing-unit;
+}

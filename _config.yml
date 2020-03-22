@@ -1,0 +1,24 @@
+title: The Vendek Operating System
+description: An experimental operating system
+compress_html:
+  clippings: all
+  comments: ["<!--", "-->"]
+  endings: all
+  ignore:
+    envs: []
+exclude:
+  - anchorjs
+permalink: /:title/
+plugins:
+  - github-pages
+  - jekyll-feed
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-sitemap
+readme_index:
+  enabled: false
+relative_links:
+  collections: true
+repository: vendek/vendek.net
+sass:
+  style: compressed
