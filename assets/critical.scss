@@ -89,8 +89,8 @@ h4, h5, h6 {
 h1, h2, h3, h4, h5, h6,
 p, blockquote, pre,
 ul, ol, dl, figure,
-.footer-heading, .footer-col, // TODO: rework footer CSS like please-admit.me, simpler
-.highlight {
+// TODO: rework footer CSS like please-admit.me, simpler
+.footer-heading, .footer-col {
   margin-bottom: $spacing-unit / 2;
 }
 
