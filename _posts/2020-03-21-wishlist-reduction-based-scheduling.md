@@ -16,7 +16,7 @@ Cooperative multitasking was the dominant paradigm for desktop operating systems
 
 It may seem easy to write a program which yields often enough, especially for someone like the mainframe programmer I once met who told me "it's very simple, all you have to do is never make a mistake." Even with human error taken out of the picture, though, it's still [literally impossible](https://en.wikipedia.org/wiki/Halting_problem) to know for every possible program if it will eventually finish, or loop forever. (In practice, the time between cooperative yields should be on the order of milliseconds and, in desktop & real-time systems, relatively consistent to prevent [jitter](https://en.wikipedia.org/wiki/Jitter)).
 
-Instead of relying on the underlying operating system's scheduler using [threads](https://en.wikipedia.org/wiki/Thread_(computing)), some programming languages use cooperative multitasking for their own concurrency mechanisms. In single-threaded languages such as [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await) or [Python](https://docs.python.org/3/library/asyncio-task.html), `async`/`await` is typically implemented cooperatively. Go's famed goroutines are [essentially](https://dave.cheney.net/2015/08/08/performance-without-the-event-loop) [coroutines](https://golang.org/doc/faq#goroutines) (although somewhat like [Erlang](#reduction-scheduling), `yield`s are implicit upon using certain features and don't need to be inserted by the programmer). Python's [generators](https://wiki.python.org/moin/Generators) make the function's `yield` to the scheduler/event loop very explicit:
+Instead of relying on the underlying operating system's scheduler using [threads](https://en.wikipedia.org/wiki/Thread_(computing)), some programming languages use cooperative multitasking for their own concurrency mechanisms. In single-threaded languages such as [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await) or [Python](https://docs.python.org/3/library/asyncio-task.html), `async`/`await` is typically implemented cooperatively. Go's famed goroutines are [essentially](https://dave.cheney.net/2015/08/08/performance-without-the-event-loop) [coroutines](https://golang.org/doc/faq#goroutines) (although somewhat like [Erlang](#reduction-scheduling), `yield`s are implicit upon using certain features and don't need to be inserted by the programmer). Python's [generators](https://wiki.python.org/moin/Generators) make the function's control `yield` very explicit:
 
 ```python
 def count():
@@ -44,7 +44,24 @@ A preemptive scheduler must have some method in place to wrest control back from
 
 The [Erlang programming language](https://www.erlang.org/) has a unique approach to concurrency with the benefits of both preemptive and cooperative scheduling. Tens of thousands of Erlang "processes" can run at once on a single machine; like coroutines, they are more lightweight than preemptive threads. However, Erlang processes don't have to explicitly yield to the scheduler like coroutines do. In fact, even tight infinite loops don't stop Erlang's scheduler.
 
-How is this accomplished? Erlang (and [Elixir](https://elixir-lang.org/)) run on the BEAM virtual machine. When a process is scheduled in, BEAM grants it a [somewhat arbitrary fixed number](https://github.com/erlang/otp/blob/79852fc8f6af064d30dc1a68462faa09fe9cc341/erts/emulator/beam/erl_vm.h#L39) of *reductions*. Modern versions of BEAM have hundreds of [built-in functions](https://erlang.org/doc/man/erlang.html) that tick down the reduction count, but originally, the reduction count simply measured function calls. (In fact, the BEAM register storing the reduction count is still called `fcalls`.) When a process runs out of reductions (i.e. a certain number of functions have been called since being scheduled in), the scheduler is invoked again. Reduction counting ends up being faster and more "lightweight" than preemptive scheduling because there's no hardware timer to set up, and context switches only occur in a few predefined places with little to save and restore.
+How is this accomplished? Erlang (and [Elixir](https://elixir-lang.org/)) run on the BEAM virtual machine. When a process is scheduled in, BEAM grants it a [somewhat arbitrary fixed number](https://github.com/erlang/otp/blob/79852fc8f6af064d30dc1a68462faa09fe9cc341/erts/emulator/beam/erl_vm.h#L39) of *reductions*. Modern versions of BEAM have hundreds of [built-in functions](https://erlang.org/doc/man/erlang.html) that tick down the reduction count, but originally, the reduction count simply measured function calls. (In fact, the BEAM register storing the reduction count is still called `fcalls`.)
+
+define reductions, what exactly is a reduction?
+[beta-reduction](https://en.wikipedia.org/wiki/Lambda_calculus#%CE%B2-reduction) ([see also](https://wiki.haskell.org/Beta_reduction))
+
+reducible expressions, or "redexes"
+
+```
+# function definitions ("redexes")
+f(x) = x*x
+g(x) = x+x
+# "eager evaluation" (innermost 
+
+# lazy evaluation
+```
+
+
+When a process runs out of reductions (i.e. a certain number of functions have been called since being scheduled in), the scheduler is invoked again. Reduction counting ends up being faster and more "lightweight" than preemptive scheduling because there's no hardware timer to set up, and context switches only occur in a few predefined places with little to save and restore.
 
 Upon first glance, this scheme doesn't seem to prevent infinite loops. However, Erlang is a [functional language](https://en.wikipedia.org/wiki/Functional_programming) with no explicit loop construct to speak of; algorithms that would be iterative in other languages are written using [recursion](https://learnyousomeerlang.com/recursion). Erlang has features such as [tail call optimization](https://maxglassie.github.io/2017/08/24/tail-recursion.html) that make recursive algorithms practical, unlike imperative languages where they'd blow up the stack.
 
@@ -82,6 +99,8 @@ eventually we can get real time guarantees
 ![Al dente pasta](/assets/al-dente.jpg)
 
 Reduction counting as described above gets us to the point where no program will block *forever*, but Erlang's notion of reductions lacks the rigor necessary for stronger guarantees. As mentioned before, a modern BEAM has hundreds of built-in functions. Because they are implemented in non-reduction-counting languages, Erlang built-ins (or [NIFs](https://erlang.org/doc/tutorial/nif.html)) have to calculate for themselves how many reductions they use (in other words, how many times more expensive it was to call the built-in function over an empty/identity Erlang function). In practice, most don't bother calculating reductions at runtime, and instead always "cost" the same number of reductions. This has limited the effectiveled to problems in the past
+
+but text_to_binary or whatever that one was "slow", didn't count reductions accurately example
 
 Erlang is a *soft real-time system*; it was designed for telecommunications, where hitting deadlines is relatively low-stakes
 
